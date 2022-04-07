@@ -16,9 +16,9 @@ namespace Data_Access.models
         [ForeignKey("JourneyID")]
         public Journey journey { get; set; }
         [Required]
-        public float Latitude { get; set; }
+        public double Latitude { get; set; }
         [Required]
-        public float Longtitude { get; set; }
+        public double Longtitude { get; set; }
         [Required]
         public float Speed { get; set; }
         [Required]
