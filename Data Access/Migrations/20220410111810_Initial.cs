@@ -8,7 +8,7 @@ namespace Data_Access.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Journeys",
+                name: "Journey",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -25,42 +25,45 @@ namespace Data_Access.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Journeys", x => x.Id);
+                    table.PrimaryKey("PK_Journey", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Positions",
+                name: "Position",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     JourneyID = table.Column<int>(type: "int", nullable: false),
-                    Latitude = table.Column<float>(type: "real", nullable: false),
-                    Longtitude = table.Column<float>(type: "real", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longtitude = table.Column<double>(type: "float", nullable: false),
                     Speed = table.Column<float>(type: "real", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Position", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Positions_Journeys_JourneyID",
+                        name: "FK_Position_Journey_JourneyID",
                         column: x => x.JourneyID,
-                        principalTable: "Journeys",
+                        principalTable: "Journey",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Positions_JourneyID",
-                table: "Positions",
+                name: "IX_Position_JourneyID",
+                table: "Position",
                 column: "JourneyID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Positions");
+                name: "Position");
 
             migrationBuilder.DropTable(
-                name: "Journeys");
+                name: "Journey");
         }
     }
 }

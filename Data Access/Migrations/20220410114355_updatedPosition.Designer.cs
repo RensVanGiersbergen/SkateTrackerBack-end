@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Access.Migrations
 {
     [DbContext(typeof(SkateTrackerContext))]
-    [Migration("20220406120835_Initial")]
-    partial class Initial
+    [Migration("20220410114355_updatedPosition")]
+    partial class updatedPosition
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,19 +57,24 @@ namespace Data_Access.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Journeys");
+                    b.ToTable("Journey");
                 });
 
             modelBuilder.Entity("Data_Access.models.Position", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("JourneyID")
                         .HasColumnType("int");
 
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
 
-                    b.Property<float>("Longtitude")
-                        .HasColumnType("real");
+                    b.Property<double>("Longtitude")
+                        .HasColumnType("float");
 
                     b.Property<float>("Speed")
                         .HasColumnType("real");
@@ -77,20 +82,25 @@ namespace Data_Access.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
 
+                    b.HasKey("Id");
+
                     b.HasIndex("JourneyID");
 
-                    b.ToTable("Positions");
+                    b.ToTable("Position");
                 });
 
             modelBuilder.Entity("Data_Access.models.Position", b =>
                 {
-                    b.HasOne("Data_Access.models.Journey", "journey")
-                        .WithMany()
+                    b.HasOne("Data_Access.models.Journey", null)
+                        .WithMany("positions")
                         .HasForeignKey("JourneyID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("journey");
+            modelBuilder.Entity("Data_Access.models.Journey", b =>
+                {
+                    b.Navigation("positions");
                 });
 #pragma warning restore 612, 618
         }

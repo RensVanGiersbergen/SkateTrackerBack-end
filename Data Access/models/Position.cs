@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace Data_Access.models
 {
-    [Keyless]
     public class Position
     {
+        [Key]
+        public int Id { get; set; }
         [Required]
         [ForeignKey("JourneyID")]
-        public Journey journey { get; set; }
+        public int JourneyID { get; set; }
         [Required]
         public double Latitude { get; set; }
         [Required]

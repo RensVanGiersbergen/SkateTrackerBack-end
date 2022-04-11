@@ -4,14 +4,16 @@ using Data_Access.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data_Access.Migrations
 {
     [DbContext(typeof(SkateTrackerContext))]
-    partial class SkateTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20220410111810_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,11 +91,13 @@ namespace Data_Access.Migrations
 
             modelBuilder.Entity("Data_Access.models.Position", b =>
                 {
-                    b.HasOne("Data_Access.models.Journey", null)
+                    b.HasOne("Data_Access.models.Journey", "journey")
                         .WithMany("positions")
                         .HasForeignKey("JourneyID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("journey");
                 });
 
             modelBuilder.Entity("Data_Access.models.Journey", b =>

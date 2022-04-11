@@ -21,5 +21,6 @@ namespace Data_Access.models
         public int RideTime { get; set; }
         public int PauseTime { get; set; }
         public bool isPaused { get; set; }
+        public List<Position> positions { get; set; }
     }
 }

@@ -23,54 +23,29 @@ namespace MQTT_Database.Controllers
         }
 
         [Route("[action]")]
+        [HttpGet]
+        public IActionResult Test()
+        {
+            return Json("ok");
+        }
+
+        [Route("[action]")]
         [HttpPost]
-        public IActionResult SendPosition([FromBody]System.Text.Json.JsonElement payload)
-        { 
+        public IActionResult SendPosition([FromBody] System.Text.Json.JsonElement payload)
+        {
             LocationData data = JsonConvert.DeserializeObject<LocationData>(payload.ToString());
 
-            using (SqlConnection conn = new SqlConnection("Server=mssqlstud.fhict.local;Database=dbi461941_skateapp;User Id=dbi461941_skateapp;Password=Venkzwegzep6"))
-            {
-                //Without EF
-                //string query = "INSERT INTO Position (JourneyID, Latitude, Longtitude, Speed, TimeStamp) VALUES (@JourneyID, @Lat, @Long, @Speed, @DateTime)";
-                //SqlCommand cmd = new SqlCommand(query, conn);
-                //cmd.Parameters.Add("@JourneyID", System.Data.SqlDbType.Int).Value = data.JourneyID;
-                //cmd.Parameters.Add("@Lat", System.Data.SqlDbType.Float).Value = data.Latitude;
-                //cmd.Parameters.Add("@Long", System.Data.SqlDbType.Float).Value = data.Longtitude;
-                //cmd.Parameters.Add("@Speed", System.Data.SqlDbType.Float).Value = data.Speed;
-                //cmd.Parameters.Add("@DateTime", System.Data.SqlDbType.DateTime2).Value = DateTime.Now;
-
-                //conn.Open();
-                //cmd.ExecuteNonQuery();
-                //conn.Close();
-
-                //With EF
-                context.Positions.Add(new Position { journey = new Journey { Id = data.JourneyID }, Latitude = data.Latitude, Longtitude = data.Longtitude, Speed = data.Speed, TimeStamp = data.TimeStamp });
-                context.SaveChanges();
-                return Json(payload);
-            }
+            context.Position.Add(new Position { JourneyID = data.JourneyID, Latitude = data.Latitude, Longtitude = data.Longtitude, Speed = data.Speed, TimeStamp = data.TimeStamp });
+            context.SaveChanges();
+            return Json(payload);
         }
 
         [Route("[action]/{name}")]
         [HttpPost]
         public IActionResult AddJourney(string name)
         {
-            int ID = 0;
-
-            //Without EF
-            //using (SqlConnection conn = new SqlConnection("Server=mssqlstud.fhict.local;Database=dbi461941_skateapp;User Id=dbi461941_skateapp;Password=Venkzwegzep6"))
-            //{
-            //    string query = "INSERT INTO Journey (name) VALUES (@Name) SELECT SCOPE_IDENTITY()";
-            //    SqlCommand cmd = new SqlCommand(query, conn);
-            //    cmd.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar).Value = name;
-
-            //    conn.Open();
-            //    ID = Convert.ToInt32(cmd.ExecuteScalar());
-            //    conn.Close();
-            //}
-
-            //With EF
             var journey = new Journey() { Name = name };
-            context.Journeys.Add(journey);
+            context.Journey.Add(journey);
             context.SaveChanges();
 
             return Ok(journey.Id);

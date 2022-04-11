@@ -11,7 +11,7 @@ namespace Data_Access.data
     public class SkateTrackerContext : DbContext
     {
         public SkateTrackerContext(DbContextOptions options) : base(options) { }
-        public DbSet<Journey> Journeys { get; set; }
-        public DbSet<Position> Positions { get; set; }
+        public DbSet<Journey> Journey { get; set; }
+        public DbSet<Position> Position { get; set; }
     }
 }
