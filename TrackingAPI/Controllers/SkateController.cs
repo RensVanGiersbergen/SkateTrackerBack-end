@@ -8,8 +8,9 @@ using Newtonsoft.Json.Linq;
 using System.Data.SqlClient;
 using Data_Access.data;
 using Data_Access.models;
+using TrackingAPI.JsonTransferObjects;
 
-namespace MQTT_Database.Controllers
+namespace TrackingAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -33,31 +34,24 @@ namespace MQTT_Database.Controllers
         [HttpPost]
         public IActionResult SendPosition([FromBody] System.Text.Json.JsonElement payload)
         {
-            LocationData data = JsonConvert.DeserializeObject<LocationData>(payload.ToString());
+            PositionDataObject jObject = JsonConvert.DeserializeObject<PositionDataObject>(payload.ToString());
 
-            context.Position.Add(new Position { JourneyID = data.JourneyID, Latitude = data.Latitude, Longtitude = data.Longtitude, Speed = data.Speed, TimeStamp = data.TimeStamp });
+            context.Position.Add((Position)jObject);
             context.SaveChanges();
             return Json(payload);
         }
 
-        [Route("[action]/{name}")]
+        [Route("[action]")]
         [HttpPost]
-        public IActionResult AddJourney(string name)
+        public IActionResult AddJourney([FromBody] System.Text.Json.JsonElement payload)
         {
-            var journey = new Journey() { Name = name };
+            JourneyDataObject jObject = JsonConvert.DeserializeObject<JourneyDataObject>(payload.ToString());
+
+            Journey journey = (Journey)jObject;
             context.Journey.Add(journey);
             context.SaveChanges();
 
             return Ok(journey.Id);
         }
-    }
-
-    class LocationData
-    {
-        public int JourneyID { get; set; }
-        public double Latitude { get; set; }
-        public double Longtitude { get; set; }
-        public float Speed { get; set; }
-        public DateTime TimeStamp { get; set; }
     }
 }
