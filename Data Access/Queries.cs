@@ -10,11 +10,25 @@ using Interface_Layer;
 using Interface_Layer.dto;
 using Data_Access;
 
+
 namespace Data_Access
 {
     public class Queries: IPositionCollectionDAL, IJourneyCollectionDAL
     {
-        SkateTrackerContext context = new SkateTrackerContext(new DbContextOptionsBuilder<SkateTrackerContext>().UseSqlServer(Configuration.ConnectionString).Options);
+
+        SkateTrackerContext context;
+        public Queries(bool test)
+        {
+            if (!test)
+            {
+                context = new SkateTrackerContext(new DbContextOptionsBuilder<SkateTrackerContext>().UseSqlServer(Configuration.ConnectionString).Options);
+            }
+            else
+            {
+                context = new SkateTrackerContext(new DbContextOptionsBuilder<SkateTrackerContext>().UseInMemoryDatabase<SkateTrackerContext>(databaseName: "TestDB").Options);
+            }
+        }
+        
         public void AddPosition(DTOPosition dto)
         {
             Position position = new Position()
@@ -45,6 +59,23 @@ namespace Data_Access
             context.SaveChanges();
 
             return journey.Id;
+        }
+
+        public List<DTOPosition> GetPositionsByJourney(int ID)
+        {
+            List<DTOPosition> positions = new List<DTOPosition>();
+            foreach(Position position in context.Position.ToList().Where(x => x.JourneyID == ID))
+            {
+                positions.Add(new DTOPosition()
+                {
+                    JourneyID = position.JourneyID,
+                    Latitude =position.Latitude,
+                    Longitude = position.Longtitude,
+                    Speed = position.Speed,
+                    TimeStamp = position.TimeStamp
+                });
+            }
+            return positions;
         }
     }
 }

@@ -11,7 +11,22 @@ namespace Logic_Layer
 {
     public class PositionCollection
     {
-        IPositionCollectionDAL positionCollectionDAL = Factory.CreateIPositionCollectionDAL();
+        IPositionCollectionDAL positionCollectionDAL;
+        public PositionCollection(bool test)
+        {
+            positionCollectionDAL = Factory.CreateIPositionCollectionDAL(test);
+        }
+        
+        public List<Position> GetAllByJourney(int ID)
+        {
+            List<Position> positions = new List<Position>();
+            foreach(DTOPosition dto in positionCollectionDAL.GetPositionsByJourney(ID))
+            {
+                positions.Add((Position)dto);
+            }
+            return positions;
+        }
+
         public void Add(Position position)
         {
             positionCollectionDAL.AddPosition((DTOPosition)position);

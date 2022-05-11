@@ -11,7 +11,11 @@ namespace Logic_Layer
 {
     public class JourneyCollection
     {
-        IJourneyCollectionDAL journeyCollectionDAL = Factory.CreateIJourneyCollectionDAL();
+        IJourneyCollectionDAL journeyCollectionDAL;
+        public JourneyCollection(bool test)
+        {
+            journeyCollectionDAL = Factory.CreateIJourneyCollectionDAL(test);
+        }
 
         public int Add(Journey journey)
         {

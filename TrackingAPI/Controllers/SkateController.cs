@@ -16,8 +16,8 @@ namespace TrackingAPI.Controllers
     [ApiController]
     public class SkateController : Controller
     {
-        PositionCollection positionCollection = new PositionCollection();
-        JourneyCollection journeyCollection = new JourneyCollection();
+        PositionCollection positionCollection = new PositionCollection(false);
+        JourneyCollection journeyCollection = new JourneyCollection(false);
 
         [Route("[action]")]
         [HttpGet]

@@ -9,6 +9,7 @@ namespace Interface_Layer
 {
     public interface IPositionCollectionDAL
     {
+        public List<DTOPosition> GetPositionsByJourney(int ID);
         void AddPosition(DTOPosition dto);
     }
 }
