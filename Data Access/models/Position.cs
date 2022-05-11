@@ -24,6 +24,5 @@ namespace Data_Access.models
         public float Speed { get; set; }
         [Required]
         public DateTime TimeStamp { get; set; }
-
     }
 }

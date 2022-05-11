@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Data.SqlClient;
-using Data_Access.data;
-using Data_Access.models;
 using TrackingAPI.JsonTransferObjects;
+using Logic_Layer;
+
 
 namespace TrackingAPI.Controllers
 {
@@ -16,12 +16,8 @@ namespace TrackingAPI.Controllers
     [ApiController]
     public class SkateController : Controller
     {
-        SkateTrackerContext context;
-
-        public SkateController(SkateTrackerContext context)
-        {
-            this.context = context;
-        }
+        PositionCollection positionCollection = new PositionCollection();
+        JourneyCollection journeyCollection = new JourneyCollection();
 
         [Route("[action]")]
         [HttpGet]
@@ -35,9 +31,8 @@ namespace TrackingAPI.Controllers
         public IActionResult SendPosition([FromBody] System.Text.Json.JsonElement payload)
         {
             PositionDataObject jObject = JsonConvert.DeserializeObject<PositionDataObject>(payload.ToString());
-
-            context.Position.Add((Position)jObject);
-            context.SaveChanges();
+            positionCollection.Add((Position)jObject);
+            
             return Json(payload);
         }
 
@@ -47,11 +42,7 @@ namespace TrackingAPI.Controllers
         {
             JourneyDataObject jObject = JsonConvert.DeserializeObject<JourneyDataObject>(payload.ToString());
 
-            Journey journey = (Journey)jObject;
-            context.Journey.Add(journey);
-            context.SaveChanges();
-
-            return Ok(journey.Id);
+            return Ok(journeyCollection.Add((Journey)jObject));
         }
     }
 }

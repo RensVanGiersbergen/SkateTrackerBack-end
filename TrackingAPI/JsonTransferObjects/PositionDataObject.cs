@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data_Access.models;
+using Logic_Layer;
 
 namespace TrackingAPI.JsonTransferObjects
 {
@@ -16,7 +16,7 @@ namespace TrackingAPI.JsonTransferObjects
 
         public static explicit operator Position(PositionDataObject obj)
         {
-            return new Position() { JourneyID = obj.JourneyID, Latitude = obj.Latitude, Longtitude = obj.Longitude, Speed = obj.Speed, TimeStamp = obj.TimeStamp };
+            return new Position() { JourneyID = obj.JourneyID, Latitude = obj.Latitude, Longitude = obj.Longitude, Speed = obj.Speed, TimeStamp = obj.TimeStamp };
         }
     }
 }

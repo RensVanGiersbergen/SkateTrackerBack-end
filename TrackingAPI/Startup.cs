@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Data_Access;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,10 +28,6 @@ namespace TrackingAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SkateTrackerContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("Default"));
-            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

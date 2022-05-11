@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Logic_Layer</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Factory Layer\Factory Layer.csproj" />
+    <ProjectReference Include="..\IFL\Interface Layer.csproj" />
+  </ItemGroup>
+
+</Project>
