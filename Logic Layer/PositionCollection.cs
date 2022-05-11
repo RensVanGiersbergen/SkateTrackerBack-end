@@ -12,9 +12,13 @@ namespace Logic_Layer
     public class PositionCollection
     {
         IPositionCollectionDAL positionCollectionDAL;
-        public PositionCollection(bool test)
+        public PositionCollection()
         {
-            positionCollectionDAL = Factory.CreateIPositionCollectionDAL(test);
+            positionCollectionDAL = Factory.CreateIPositionCollectionDAL();
+        }
+        public PositionCollection(string name)
+        {
+            positionCollectionDAL = Factory.CreateIPositionCollectionDAL(name);
         }
         
         public List<Position> GetAllByJourney(int ID)

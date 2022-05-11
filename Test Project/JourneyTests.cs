@@ -9,7 +9,7 @@ namespace Test_Project
         public void AddJourneyAndReturnID()
         {
             //Arrange
-            JourneyCollection collection = new JourneyCollection(true);
+            JourneyCollection collection = new JourneyCollection("AddJourneyAndReturnID");
             Journey journey = new Journey() { Name = "Test" };
 
             //Act

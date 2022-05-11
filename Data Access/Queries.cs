@@ -13,22 +13,20 @@ using Data_Access;
 
 namespace Data_Access
 {
-    public class Queries: IPositionCollectionDAL, IJourneyCollectionDAL
+    public class Queries : IPositionCollectionDAL, IJourneyCollectionDAL
     {
 
         SkateTrackerContext context;
-        public Queries(bool test)
+        public Queries()
         {
-            if (!test)
-            {
-                context = new SkateTrackerContext(new DbContextOptionsBuilder<SkateTrackerContext>().UseSqlServer(Configuration.ConnectionString).Options);
-            }
-            else
-            {
-                context = new SkateTrackerContext(new DbContextOptionsBuilder<SkateTrackerContext>().UseInMemoryDatabase<SkateTrackerContext>(databaseName: "TestDB").Options);
-            }
+            context = new SkateTrackerContext(new DbContextOptionsBuilder<SkateTrackerContext>().UseSqlServer(Configuration.ConnectionString).Options);
         }
-        
+
+        public Queries(string name)
+        {
+            context = new SkateTrackerContext(new DbContextOptionsBuilder<SkateTrackerContext>().UseInMemoryDatabase<SkateTrackerContext>(databaseName: name).Options);
+        }
+
         public void AddPosition(DTOPosition dto)
         {
             Position position = new Position()
@@ -64,18 +62,37 @@ namespace Data_Access
         public List<DTOPosition> GetPositionsByJourney(int ID)
         {
             List<DTOPosition> positions = new List<DTOPosition>();
-            foreach(Position position in context.Position.ToList().Where(x => x.JourneyID == ID))
+            foreach (Position position in context.Position.ToList().Where(x => x.JourneyID == ID))
             {
                 positions.Add(new DTOPosition()
                 {
                     JourneyID = position.JourneyID,
-                    Latitude =position.Latitude,
+                    Latitude = position.Latitude,
                     Longitude = position.Longtitude,
                     Speed = position.Speed,
                     TimeStamp = position.TimeStamp
                 });
             }
             return positions;
+        }
+
+        public List<DTOJourney> GetJourneysBySkater(int SkaterID)
+        {
+            List<DTOJourney> journeys = new List<DTOJourney>();
+            foreach (Journey journey in context.Journey.ToList().Where(x => x.SkaterId == SkaterID))
+            {
+                journeys.Add(new DTOJourney()
+                {
+                    Id = journey.Id,
+                    Name = journey.Name,
+                    MaxSpeed = journey.MaxSpeed,
+                    StartTime = journey.StartTime,
+                    PauseTime = journey.PauseTime,
+                    RideTime = journey.RideTime,
+                    TotalTime = journey.TotalTime
+                });
+            }
+            return journeys;
         }
     }
 }

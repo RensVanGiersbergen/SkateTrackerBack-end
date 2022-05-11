@@ -10,14 +10,22 @@ namespace Factory_Layer
 {
     public class Factory
     {
-        public static IPositionCollectionDAL CreateIPositionCollectionDAL(bool test)
+        public static IPositionCollectionDAL CreateIPositionCollectionDAL()
         {
-            return new Queries(test);
+            return new Queries();
+        }
+        public static IPositionCollectionDAL CreateIPositionCollectionDAL(string name)
+        {
+            return new Queries(name);
         }
 
-        public static IJourneyCollectionDAL CreateIJourneyCollectionDAL(bool test)
+        public static IJourneyCollectionDAL CreateIJourneyCollectionDAL()
         {
-            return new Queries(test);
+            return new Queries();
+        }
+        public static IJourneyCollectionDAL CreateIJourneyCollectionDAL(string name)
+        {
+            return new Queries(name);
         }
     }
 }
