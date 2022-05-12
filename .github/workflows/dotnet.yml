@@ -21,6 +21,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Publish application
+      run: dotnet publish -c Release -o ${{ env.DOTNET_ROOT }}/publish
 
   publish:
     environment: Production
