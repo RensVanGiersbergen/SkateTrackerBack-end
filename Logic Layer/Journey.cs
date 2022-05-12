@@ -16,6 +16,7 @@ namespace Logic_Layer
         public int TotalTime { get; set; }
         public int RideTime { get; set; }
         public int PauseTime { get; set; }
+        public int SkaterID { get; set; }
 
         public static explicit operator DTOJourney(Journey journey)
         {
@@ -32,6 +33,7 @@ namespace Logic_Layer
                 TotalTime = journey.TotalTime,
                 RideTime = journey.RideTime,
                 PauseTime = journey.PauseTime,
+                SkaterID = journey.SkaterID
             };
         }
 
@@ -50,6 +52,7 @@ namespace Logic_Layer
                 TotalTime = dto.TotalTime,
                 RideTime = dto.RideTime,
                 PauseTime = dto.PauseTime,
+                SkaterID = dto.SkaterID
             };
         }
     }

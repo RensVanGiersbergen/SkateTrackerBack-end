@@ -15,5 +15,6 @@ namespace Interface_Layer.dto
         public int TotalTime { get; set; }
         public int RideTime { get; set; }
         public int PauseTime { get; set; }
+        public int SkaterID { get; set; }
     }
 }

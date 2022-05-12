@@ -10,5 +10,6 @@ namespace Interface_Layer
     public interface IJourneyCollectionDAL
     {
         int AddJourney(DTOJourney dto);
+        public List<DTOJourney> GetJourneysBySkater(int SkaterID);
     }
 }

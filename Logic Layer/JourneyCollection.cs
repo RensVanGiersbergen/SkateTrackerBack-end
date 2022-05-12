@@ -25,5 +25,15 @@ namespace Logic_Layer
         {
             return journeyCollectionDAL.AddJourney((DTOJourney)journey);
         }
+
+        public List<Journey> GetAllBySkater(int SkaterID)
+        {
+            List<Journey > journeys = new List<Journey>();
+            foreach(DTOJourney dto in journeyCollectionDAL.GetJourneysBySkater(SkaterID))
+            {
+                journeys.Add((Journey)dto);
+            }
+            return journeys;
+        }
     }
 }

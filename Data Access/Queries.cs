@@ -37,8 +37,15 @@ namespace Data_Access
                 Speed = dto.Speed,
                 TimeStamp = dto.TimeStamp,
             };
-            context.Add(position);
-            context.SaveChanges();
+            if(context.Journey.Where(x => x.Id == position.JourneyID).Any())
+            {
+                context.Add(position);
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("No journey that matches this positions journeyID");
+            }
         }
 
         public int AddJourney(DTOJourney dto)
@@ -51,7 +58,8 @@ namespace Data_Access
                 MaxSpeed = dto.MaxSpeed,
                 TotalTime = dto.TotalTime,
                 RideTime = dto.RideTime,
-                PauseTime = dto.PauseTime
+                PauseTime = dto.PauseTime,
+                SkaterId = dto.SkaterID
             };
             context.Add(journey);
             context.SaveChanges();
@@ -61,19 +69,23 @@ namespace Data_Access
 
         public List<DTOPosition> GetPositionsByJourney(int ID)
         {
-            List<DTOPosition> positions = new List<DTOPosition>();
-            foreach (Position position in context.Position.ToList().Where(x => x.JourneyID == ID))
+            if(context.Journey.Where(x => x.Id == ID).Any())
             {
-                positions.Add(new DTOPosition()
+                List<DTOPosition> positions = new List<DTOPosition>();
+                foreach (Position position in context.Position.ToList().Where(x => x.JourneyID == ID))
                 {
-                    JourneyID = position.JourneyID,
-                    Latitude = position.Latitude,
-                    Longitude = position.Longtitude,
-                    Speed = position.Speed,
-                    TimeStamp = position.TimeStamp
-                });
+                    positions.Add(new DTOPosition()
+                    {
+                        JourneyID = position.JourneyID,
+                        Latitude = position.Latitude,
+                        Longitude = position.Longtitude,
+                        Speed = position.Speed,
+                        TimeStamp = position.TimeStamp
+                    });
+                }
+                return positions;
             }
-            return positions;
+            throw new Exception($"Journey with id:{ID} doesn't exist");
         }
 
         public List<DTOJourney> GetJourneysBySkater(int SkaterID)

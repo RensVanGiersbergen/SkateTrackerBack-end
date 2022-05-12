@@ -15,15 +15,16 @@ namespace TrackingAPI.JsonTransferObjects
         public int TotalTime { get; set; }
         public int RideTime { get; set; }
         public int PauseTime { get; set; }
+        public int SkaterID { get; set; }
 
         public static explicit operator Journey(JourneyDataObject obj)
         {
-            return new Journey() { Name = obj.Name, StartTime = obj.StartTime, MaxSpeed = obj.MaxSpeed, TotalTime = obj.TotalTime, RideTime = obj.RideTime, PauseTime = obj.PauseTime };
+            return new Journey() { Name = obj.Name, StartTime = obj.StartTime, MaxSpeed = obj.MaxSpeed, TotalTime = obj.TotalTime, RideTime = obj.RideTime, PauseTime = obj.PauseTime, SkaterID = obj.SkaterID };
         }
 
         public static explicit operator JourneyDataObject(Journey obj)
         {
-            return new JourneyDataObject() { Id = obj.Id, Name = obj.Name, StartTime = obj.StartTime, MaxSpeed = obj.MaxSpeed, TotalTime = obj.TotalTime, RideTime = obj.RideTime, PauseTime = obj.PauseTime };
+            return new JourneyDataObject() { Id = obj.Id, Name = obj.Name, StartTime = obj.StartTime, MaxSpeed = obj.MaxSpeed, TotalTime = obj.TotalTime, RideTime = obj.RideTime, PauseTime = obj.PauseTime, SkaterID = obj.SkaterID };
         }
     }
 }

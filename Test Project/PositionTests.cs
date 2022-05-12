@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using Logic_Layer;
 using System.Collections.Generic;
+using System;
 
 namespace Test_Project
 {
@@ -27,6 +28,16 @@ namespace Test_Project
         }
 
         [Fact]
+        public void AddPositionsToNonExistingJourney()
+        {
+            //Arrange
+            PositionCollection positionCollection = new PositionCollection("AddPositionsToNonExistingJourney");
+            
+            //Assert
+            Assert.Throws<Exception>(() => positionCollection.Add(new Position() { JourneyID = 10 }));
+        }
+
+        [Fact]
         public void GetAllPositionsByJourney()
         {
             //Arrange
@@ -50,9 +61,21 @@ namespace Test_Project
                 positionCollection.Add(position);
             }
 
-            //ToDo fix assert
             //Assert
-            Assert.Equal(positions, positionCollection.GetAllByJourney(journeyId));
+            Assert.Equal(positions[0].Speed, positionCollection.GetAllByJourney(journeyId)[0].Speed);
+            Assert.Equal(positions[1].Speed, positionCollection.GetAllByJourney(journeyId)[1].Speed);
+            Assert.Equal(positions[2].Speed, positionCollection.GetAllByJourney(journeyId)[2].Speed);
+            Assert.Equal(positions[3].Speed, positionCollection.GetAllByJourney(journeyId)[3].Speed);
+        }
+
+        [Fact]
+        public void GetAllPositionsFromNonExistingJourney()
+        {
+            //Arrange
+            PositionCollection positionCollection = new PositionCollection("GetAllPositionsFromNonExistingJourney");
+
+            //Assert
+            Assert.Throws<Exception>(() => positionCollection.GetAllByJourney(69));
         }
     }
 }
