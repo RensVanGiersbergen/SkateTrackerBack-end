@@ -23,6 +23,11 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Publish application
       run: dotnet publish -c Release -o ${{ env.DOTNET_ROOT }}/publish
+    - name: Upload build as artifact for publishing
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: ${{ env.DOTNET_ROOT }}/publish
 
   publish:
     environment: Production
