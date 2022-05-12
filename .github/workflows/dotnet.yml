@@ -21,3 +21,26 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+  publish:
+    environment: Production
+    runs-on: ubuntu-18.04
+    needs: build
+    
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          
+      - name: Deploy to server using FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.SERVER_URL }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          local-dir: ./
+          server-dir: ${{ secrets.APP_DIR }}
+          protocol: ftps
+          security: loose
+          dangerous-clean-slate: true
