@@ -20,13 +20,6 @@ namespace TrackingAPI.Controllers
         JourneyCollection journeyCollection = new JourneyCollection();
 
         [Route("[action]")]
-        [HttpGet]
-        public IActionResult Test()
-        {
-            return Json("ok");
-        }
-
-        [Route("[action]")]
         [HttpPost]
         public IActionResult SendPosition([FromBody] System.Text.Json.JsonElement payload)
         {
@@ -44,5 +37,20 @@ namespace TrackingAPI.Controllers
 
             return Ok(journeyCollection.Add((Journey)jObject));
         }
+
+        [Route("[action]")]
+        [HttpGet]
+        public IActionResult GetJourneysBySkater(int SkaterID)
+        {
+            return Ok(journeyCollection.GetAllBySkater(SkaterID));
+        }
+
+        [Route("[action]")]
+        [HttpGet]
+        public IActionResult GetPositionsByJourney(int JourneyID)
+        {
+            return Ok(positionCollection.GetAllByJourney(JourneyID));
+        }
+
     }
 }

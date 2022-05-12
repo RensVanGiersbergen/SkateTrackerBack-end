@@ -9,7 +9,7 @@ namespace Interface_Layer.dto
     public class DTOJourney
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public DateTime StartTime { get; set; }
         public float MaxSpeed { get; set; }
         public int TotalTime { get; set; }

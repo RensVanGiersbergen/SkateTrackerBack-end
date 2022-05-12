@@ -101,7 +101,8 @@ namespace Data_Access
                     StartTime = journey.StartTime,
                     PauseTime = journey.PauseTime,
                     RideTime = journey.RideTime,
-                    TotalTime = journey.TotalTime
+                    TotalTime = journey.TotalTime,
+                    SkaterID = journey.SkaterId
                 });
             }
             return journeys;
