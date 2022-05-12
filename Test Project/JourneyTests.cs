@@ -16,7 +16,7 @@ namespace Test_Project
             var result = collection.Add(journey);
 
             //Assert
-            Assert.Equal(1, result);
+            Assert.Equal(2, result);
         }
 
         [Fact]
