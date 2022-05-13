@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Data.SqlClient;
 using TrackingAPI.JsonTransferObjects;
 using Logic_Layer;
-
+using Microsoft.AspNetCore.Cors;
 
 namespace TrackingAPI.Controllers
 {
@@ -34,24 +34,23 @@ namespace TrackingAPI.Controllers
         public IActionResult AddJourney([FromBody] System.Text.Json.JsonElement payload)
         {
             JourneyDataObject jObject = JsonConvert.DeserializeObject<JourneyDataObject>(payload.ToString());
-
             return Ok(journeyCollection.Add((Journey)jObject));
         }
 
         [Route("[action]")]
         [HttpGet]
+        [EnableCors("MyPolicy")]
         public IActionResult GetJourneysBySkater(int SkaterID)
-
         {
             return Ok(journeyCollection.GetAllBySkater(SkaterID));
         }
 
         [Route("[action]")]
         [HttpGet]
+        [EnableCors("MyPolicy")]
         public IActionResult GetPositionsByJourney(int JourneyID)
         {
             return Ok(positionCollection.GetAllByJourney(JourneyID));
         }
-
     }
 }

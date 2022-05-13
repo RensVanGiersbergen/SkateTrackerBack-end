@@ -33,15 +33,9 @@ namespace TrackingAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrackingAPI", Version = "v1" });
             });
-            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                    policy =>
-                    {
-                        policy.WithOrigins("http://localhost:3000/");
-                    });
+                options.AddPolicy("MyPolicy", a => a.WithOrigins("http://localhost:3000"));
             });
         }
 
@@ -61,7 +55,13 @@ namespace TrackingAPI
 
             app.UseAuthorization();
 
-            app.UseCors();
+            app.UseCors(options =>
+            {
+                options.
+                WithOrigins("http://localhost:3000").
+                AllowAnyHeader().
+                AllowAnyMethod();
+            });
 
             app.UseEndpoints(endpoints =>
             {
