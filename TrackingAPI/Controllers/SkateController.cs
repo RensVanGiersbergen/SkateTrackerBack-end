@@ -41,6 +41,7 @@ namespace TrackingAPI.Controllers
         [Route("[action]")]
         [HttpGet]
         public IActionResult GetJourneysBySkater(int SkaterID)
+
         {
             return Ok(journeyCollection.GetAllBySkater(SkaterID));
         }
