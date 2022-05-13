@@ -33,6 +33,16 @@ namespace TrackingAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrackingAPI", Version = "v1" });
             });
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000/");
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +60,8 @@ namespace TrackingAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
