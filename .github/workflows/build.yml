@@ -39,7 +39,7 @@ jobs:
       - name: Build and analyze
         env:
           DOTNET_ROLL_FORWARD: Major
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: d95817a8306e82f141e757c78abb6a7438cfd5dd
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         shell: powershell
         run: |
