@@ -85,7 +85,7 @@ namespace Data_Access
                 }
                 return positions;
             }
-            throw new Exception($"Journey with id:{ID} doesn't exist");
+            throw new NullReferenceException($"Journey with id:{ID} doesn't exist");
         }
 
         public List<DTOJourney> GetJourneysBySkater(int SkaterID)
@@ -106,6 +106,26 @@ namespace Data_Access
                 });
             }
             return journeys;
+        }
+
+        public DTOJourney GetJourneyById(int ID)
+        {
+            if (context.Journey.Where(x => x.Id == ID).Any())
+            {
+                Journey journey = context.Journey.Where(x => x.Id == ID).FirstOrDefault();
+                return new DTOJourney()
+                {
+                    Id = journey.Id,
+                    Name = journey.Name,
+                    MaxSpeed = journey.MaxSpeed,
+                    StartTime = journey.StartTime,
+                    PauseTime = journey.PauseTime,
+                    RideTime = journey.RideTime,
+                    TotalTime = journey.TotalTime,
+                    SkaterID = journey.SkaterId
+                };
+            }
+            throw new NullReferenceException($"Journey with id:{ID} doesn't exist");
         }
     }
 }

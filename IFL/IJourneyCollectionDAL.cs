@@ -11,5 +11,6 @@ namespace Interface_Layer
     {
         int AddJourney(DTOJourney dto);
         public List<DTOJourney> GetJourneysBySkater(int SkaterID);
+        public DTOJourney GetJourneyById(int ID);
     }
 }

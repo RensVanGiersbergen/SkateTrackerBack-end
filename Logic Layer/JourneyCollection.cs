@@ -35,5 +35,10 @@ namespace Logic_Layer
             }
             return journeys;
         }
+
+        public Journey GetByID(int ID)
+        {
+            return (Journey)journeyCollectionDAL.GetJourneyById(ID);
+        }
     }
 }

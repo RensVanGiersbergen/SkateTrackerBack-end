@@ -21,6 +21,7 @@ namespace TrackingAPI.Controllers
 
         [Route("[action]")]
         [HttpPost]
+        [EnableCors("MyPolicy")]
         public IActionResult SendPosition([FromBody] System.Text.Json.JsonElement payload)
         {
             PositionDataObject jObject = JsonConvert.DeserializeObject<PositionDataObject>(payload.ToString());
@@ -31,6 +32,7 @@ namespace TrackingAPI.Controllers
 
         [Route("[action]")]
         [HttpPost]
+        [EnableCors("MyPolicy")]
         public IActionResult AddJourney([FromBody] System.Text.Json.JsonElement payload)
         {
             JourneyDataObject jObject = JsonConvert.DeserializeObject<JourneyDataObject>(payload.ToString());
@@ -51,6 +53,23 @@ namespace TrackingAPI.Controllers
         public IActionResult GetPositionsByJourney(int JourneyID)
         {
             return Ok(positionCollection.GetAllByJourney(JourneyID));
+        }
+
+        [Route("[action]")]
+        [HttpGet]
+        [EnableCors("MyPolicy")]
+        public IActionResult GetJourneyById(int ID)
+        {
+            Journey journey = new Journey();
+            try
+            {
+                journey = journeyCollection.GetByID(ID);
+            }
+            catch(Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            return Ok(journey);
         }
     }
 }
