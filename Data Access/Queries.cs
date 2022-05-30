@@ -44,7 +44,7 @@ namespace Data_Access
             }
             else
             {
-                throw new Exception("No journey that matches this positions journeyID");
+                throw new NullReferenceException("No journey that matches this positions journeyID");
             }
         }
 
@@ -85,7 +85,7 @@ namespace Data_Access
                 }
                 return positions;
             }
-            throw new NullReferenceException($"Journey with id:{ID} doesn't exist");
+            throw new NullReferenceException($"Journey with id: {ID} doesn't exist");
         }
 
         public List<DTOJourney> GetJourneysBySkater(int SkaterID)
@@ -125,7 +125,7 @@ namespace Data_Access
                     SkaterID = journey.SkaterId
                 };
             }
-            throw new NullReferenceException($"Journey with id:{ID} doesn't exist");
+            throw new NullReferenceException($"Journey with id: {ID} doesn't exist");
         }
     }
 }

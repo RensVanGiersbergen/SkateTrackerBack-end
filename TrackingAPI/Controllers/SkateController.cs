@@ -16,18 +16,29 @@ namespace TrackingAPI.Controllers
     [ApiController]
     public class SkateController : Controller
     {
-        PositionCollection positionCollection = new PositionCollection();
-        JourneyCollection journeyCollection = new JourneyCollection();
+        public PositionCollection positionCollection = new PositionCollection();
+        public JourneyCollection journeyCollection = new JourneyCollection();
 
         [Route("[action]")]
         [HttpPost]
         [EnableCors("MyPolicy")]
         public IActionResult SendPosition([FromBody] System.Text.Json.JsonElement payload)
         {
-            PositionDataObject jObject = JsonConvert.DeserializeObject<PositionDataObject>(payload.ToString());
-            positionCollection.Add((Position)jObject);
-            
-            return Json(payload);
+            PositionDataObject jObject;
+            try
+            {
+                jObject = JsonConvert.DeserializeObject<PositionDataObject>(payload.ToString());
+                positionCollection.Add((Position)jObject);
+            }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok(payload);
         }
 
         [Route("[action]")]
@@ -35,7 +46,15 @@ namespace TrackingAPI.Controllers
         [EnableCors("MyPolicy")]
         public IActionResult AddJourney([FromBody] System.Text.Json.JsonElement payload)
         {
-            JourneyDataObject jObject = JsonConvert.DeserializeObject<JourneyDataObject>(payload.ToString());
+            JourneyDataObject jObject;
+            try
+            {
+                jObject = JsonConvert.DeserializeObject<JourneyDataObject>(payload.ToString());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok(journeyCollection.Add((Journey)jObject));
         }
 
@@ -52,7 +71,16 @@ namespace TrackingAPI.Controllers
         [EnableCors("MyPolicy")]
         public IActionResult GetPositionsByJourney(int JourneyID)
         {
-            return Ok(positionCollection.GetAllByJourney(JourneyID));
+            List<Position> positions = new List<Position>();
+            try
+            {
+                positions = positionCollection.GetAllByJourney(JourneyID);
+            }
+            catch(Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            return Ok(positions);
         }
 
         [Route("[action]")]
@@ -65,7 +93,7 @@ namespace TrackingAPI.Controllers
             {
                 journey = journeyCollection.GetByID(ID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return NotFound(ex.Message);
             }

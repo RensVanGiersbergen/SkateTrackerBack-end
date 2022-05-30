@@ -34,7 +34,7 @@ namespace Test_Project
             PositionCollection positionCollection = new PositionCollection("AddPositionsToNonExistingJourney");
             
             //Assert
-            Assert.Throws<Exception>(() => positionCollection.Add(new Position() { JourneyID = 10 }));
+            Assert.Throws<NullReferenceException>(() => positionCollection.Add(new Position() { JourneyID = 69 }));
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace Test_Project
             PositionCollection positionCollection = new PositionCollection("GetAllPositionsFromNonExistingJourney");
 
             //Assert
-            Assert.Throws<Exception>(() => positionCollection.GetAllByJourney(69));
+            Assert.Throws<NullReferenceException>(() => positionCollection.GetAllByJourney(69));
         }
     }
 }
